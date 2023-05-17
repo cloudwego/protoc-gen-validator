@@ -1,0 +1,101 @@
+// protoc生成代码兼容proto2的语法
+syntax = "proto3";
+
+package psm;
+
+option go_package = "a/b/c/psm";
+
+import "api.proto";
+import "base.proto";
+import "other/other.proto";
+
+message IntValidate {
+  int32 Int32Const = 1 [(api.vt).const="123", (api.vt).lt="132", (api.vt).le="1232"];
+  sint32 SIntLt = 2 [(api.vt).lt="123"];
+  sfixed32 SFix32Lte = 3 [(api.vt).le="123"];
+  uint32 UIntGt = 4 [(api.vt).gt="123"];
+  optional uint64 uint64Gte = 5 [(api.vt).ge="123", (api.vt).not_nil="true"];
+  optional fixed32 Fix32In = 6 [(api.vt)={in: ["123","456","789"]}];
+  optional fixed64 Fix64Notin = 7 [(api.vt)={not_in: ["123","456","789", "$SFix32Lte"]}];
+  optional sfixed32 Reference = 8 [(api.vt).le="$SIntLt"];
+}
+
+message DoubleValidate {
+  optional double DoubleConst = 1 [(api.vt).const="123.123"];
+  optional float FloatLt = 2 [(api.vt).lt="123.312"];
+  optional double DoubleLe = 3 [(api.vt).le="123.54"];
+  optional double DoubleGt = 4 [(api.vt).gt="123.76"];
+  optional double DoubleGe = 5 [(api.vt).ge="123.32"];
+  optional double DoubleIn = 6 [(api.vt)={in: ["123.9","456.443","789.232"]}];
+  optional double DoubleNotin = 7 [(api.vt)={not_in: ["123.234","456.7654","789.232", "$DoubleLe"]}];
+  optional double Reference = 8 [(api.vt).le="$DoubleLe"];
+}
+
+message BoolValidator {
+  optional bool BoolConst = 1 [(api.vt).const="true"];
+  optional bool Reference = 2 [(api.vt).const="$BoolConst"];
+}
+
+message StringValidate {
+  optional string StringConst = 1 [(api.vt).const="asd"];
+  optional string StringMinSize = 2 [(api.vt).min_size="12"];
+  optional string StringMaxSize = 3 [(api.vt).max_size="12"];
+  optional string StringPattern = 4 [(api.vt).pattern="[0-9A-Za-z]+"];
+  optional string StringPrefix = 5 [(api.vt).prefix="asd"];
+  optional string StringSuffix = 6 [(api.vt).suffix="asd"];
+  optional string StringContain = 7 [(api.vt).contains="asd"];
+  optional string StringNotContain = 8 [(api.vt).not_contains="asd"];
+  optional string StringIn = 9 [(api.vt)={in:["123","456","789"]}];
+  optional string StringNotIn = 10 [(api.vt)={not_in:["123","456","789"]}];
+}
+
+message BytesValidate {
+  optional bytes bytesConst = 1 [(api.vt).const="asd"];
+  optional bytes bytesMinSize = 2 [(api.vt).min_size="12"];
+  optional bytes bytesMaxSize = 3 [(api.vt).max_size="12"];
+  optional bytes bytesPattern = 4 [(api.vt).pattern="[0-9A-Za-z]+"];
+  optional bytes bytesPrefix = 5 [(api.vt).prefix="asd"];
+  optional bytes bytesSuffix = 6 [(api.vt).suffix="asd"];
+  optional bytes bytesContain = 7 [(api.vt).contains="asd"];
+  optional bytes bytesNotContain = 8 [(api.vt).not_contains="asd"];
+  optional bytes bytesIn = 9 [(api.vt)={in:["123","456","789"]}];
+  optional bytes bytesNotIn = 10 [(api.vt)={not_in:["123","456","789"]}];
+}
+
+enum EnumType {
+  TWEET = 0;
+  RETWEET = 1;
+}
+
+message EnumValidate {
+  optional EnumType Enum1 = 1 [(api.vt).const="EnumType.TWEET"];
+  optional EnumType2 Enum2 = 2 [(api.vt).const="EnumType2.TWEET2"];
+  optional other.OtherEnumType Enum3 = 3 [(api.vt).const="other.OtherEnumType.TWEET"];
+  optional EnumType EnumDefineOnly = 4 [(api.vt).defined_only="true"];
+}
+
+message ListValidate {
+  repeated string ListMinSize = 1 [(api.vt).min_size="12"];
+  repeated string ListMaxSize = 2 [(api.vt).max_size="11"];
+  repeated string ListBaseElem = 3 [(api.vt).elem.const="312"];
+  repeated BytesValidate ListMsgElem = 4 [(api.vt).elem.skip="false"];
+  repeated other.OtherEnumType ListEnum =5 [(api.vt).elem.const="other.OtherEnumType.TWEET"];
+  repeated EnumType ListEnum2 =6 [(api.vt).elem.const="EnumType.TWEET"];
+}
+
+message MapValidate {
+  map<int32, string> MapISMinSize = 1 [(api.vt).min_size="10", (api.vt).max_size="30"];
+  map<int32, BytesValidate> MapNoSparse = 2 [(api.vt).no_sparse="true"];
+  map<int32, string> MapISKeyValue = 3 [(api.vt).key.const="123", (api.vt).key.gt="12", (api.vt).value.const="asd", (api.vt).value.prefix="asd"];
+  map<int32, other.OtherEnumType> EnumType11 = 4 [(api.vt).value.const="other.OtherEnumType.TWEET"];
+  map<int32, other.OtherMessage> MapMsgKeyValue = 5 [(api.vt).value.skip="false"];
+}
+
+message FuncValidate {
+  optional int64 Func1 = 1[(api.vt).gt = "@add(@add(@now_unix_nano(),122), 1000)"];
+}
+
+message Example {
+  optional string Msg = 1 [(api.vt).max_size = "@fix_length($MaxLength)"];
+  optional int64 MaxLength =2 ;
+}
