@@ -1,0 +1,15 @@
+// protoc生成代码兼容proto2的语法
+syntax = "proto3";
+
+package other;
+
+option go_package = "a/b/c/kitex_gen/other";
+
+enum OtherEnumType {
+  TWEET = 0;
+  RETWEET = 1;
+}
+
+message OtherMessage {
+
+}

@@ -1,0 +1,11 @@
+// protoc生成代码兼容proto2的语法
+syntax = "proto3";
+
+package psm;
+
+option go_package = "a/b/c/kitex_gen/psm";
+
+enum EnumType2 {
+  TWEET2 = 0;
+  RETWEET2 = 1;
+}
