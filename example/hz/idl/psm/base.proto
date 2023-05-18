@@ -3,7 +3,7 @@ syntax = "proto3";
 
 package psm;
 
-option go_package = "a/b/c/psm";
+option go_package = "a/b/c/biz/model/psm";
 
 enum EnumType2 {
   TWEET2 = 0;

@@ -4,7 +4,7 @@ package api;
 
 import "google/protobuf/descriptor.proto";
 
-option go_package = "a/b/c/api";
+option go_package = "a/b/c/biz/model/api";
 
 //本文件是简化版的byteapi protobuf idl注解
 

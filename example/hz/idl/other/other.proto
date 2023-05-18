@@ -3,7 +3,7 @@ syntax = "proto3";
 
 package other;
 
-option go_package = "a/b/c/other";
+option go_package = "a/b/c/biz/model/other";
 
 enum OtherEnumType {
   TWEET = 0;
