@@ -396,6 +396,9 @@ func (g *Generator) generateSlice(name string, vc *ValidateContext, vals []*pars
 	}
 	typeID := vc.RawField.Desc.Kind().String()
 	goType, _ := fieldGoType(g.GeneratedFile, vc.RawField)
+	if strings.HasPrefix(goType, "[]") {
+		goType = strings.TrimPrefix(goType, "[]")
+	}
 	str := strings.Builder{}
 	str.WriteString(fmt.Sprintf("%s := []", name))
 	var vs []string

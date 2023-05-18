@@ -213,7 +213,7 @@ func (m *BytesValidate) Validate() error {
 	if bytes.Contains(m.GetBytesNotContain(), _src5) {
 		return fmt.Errorf("field bytesNotContain not_contains rule failed, current value: %v", m.GetBytesNotContain())
 	}
-	_src6 := [][]byte{[]byte("123"), []byte("456"), []byte("789")}
+	_src6 := []byte{byte("123"), byte("456"), byte("789")}
 
 	var _exist bool
 	for _, src := range _src6 {
@@ -225,7 +225,7 @@ func (m *BytesValidate) Validate() error {
 	if !_exist {
 		return fmt.Errorf("field bytesIn in rule failed, current value: %v", m.GetBytesIn())
 	}
-	_src7 := [][]byte{[]byte("123"), []byte("456"), []byte("789")}
+	_src7 := []byte{byte("123"), byte("456"), byte("789")}
 
 	for _, src := range _src7 {
 		if bytes.Equal(m.GetBytesNotIn(), src) {
@@ -288,6 +288,16 @@ func (m *ListValidate) Validate() error {
 			return fmt.Errorf("field _elem3 const rule failed, current value: %v", _elem3)
 		}
 	}
+	for i := 0; i < len(m.GetListBaseElemIn()); i++ {
+		_elem4 := m.GetListBaseElemIn()[i]
+		_src3 := []string{string("123"), string("456"), string("789")}
+
+		for _, src := range _src3 {
+			if _elem4 == src {
+				return fmt.Errorf("field _elem4 not_in rule failed, current value: %v", _elem4)
+			}
+		}
+	}
 	return nil
 }
 
@@ -304,11 +314,11 @@ func (m *MapValidate) Validate() error {
 		}
 	}
 	for k := range m.GetMapISKeyValue() {
-		if k <= int32(12) {
-			return fmt.Errorf("field k gt rule failed, current value: %v", k)
-		}
 		if k != int32(123) {
 			return fmt.Errorf("field k not match const value, current value: %v", k)
+		}
+		if k <= int32(12) {
+			return fmt.Errorf("field k gt rule failed, current value: %v", k)
 		}
 	}
 	for _, v := range m.GetMapISKeyValue() {
@@ -330,6 +340,15 @@ func (m *MapValidate) Validate() error {
 	for _, v := range m.GetMapMsgKeyValue() {
 		if err := v.Validate(); err != nil {
 			return fmt.Errorf("filed v not valid, %w", err)
+		}
+	}
+	for _, v := range m.GetMapIn() {
+		_src3 := []string{string("123"), string("456"), string("789")}
+
+		for _, src := range _src3 {
+			if v == src {
+				return fmt.Errorf("field v not_in rule failed, current value: %v", v)
+			}
 		}
 	}
 	return nil

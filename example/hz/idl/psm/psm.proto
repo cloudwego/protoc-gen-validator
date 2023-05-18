@@ -3,7 +3,7 @@ syntax = "proto3";
 
 package psm;
 
-option go_package = "a/b/c/psm";
+option go_package = "a/b/c/biz/model/psm";
 
 import "api.proto";
 import "base.proto";
@@ -80,7 +80,8 @@ message ListValidate {
   repeated string ListBaseElem = 3 [(api.vt).elem.const="312"];
   repeated BytesValidate ListMsgElem = 4 [(api.vt).elem.skip="false"];
   repeated other.OtherEnumType ListEnum =5 [(api.vt).elem.const="other.OtherEnumType.TWEET"];
-  repeated EnumType ListEnum2 =6 [(api.vt).elem.const="EnumType.TWEET"];
+  repeated EnumType ListEnum2 = 6 [(api.vt).elem.const="EnumType.TWEET"];
+  repeated string ListBaseElemIn = 7 [(api.vt).elem={not_in:["123","456","789"]}];
 }
 
 message MapValidate {
@@ -89,6 +90,7 @@ message MapValidate {
   map<int32, string> MapISKeyValue = 3 [(api.vt).key.const="123", (api.vt).key.gt="12", (api.vt).value.const="asd", (api.vt).value.prefix="asd"];
   map<int32, other.OtherEnumType> EnumType11 = 4 [(api.vt).value.const="other.OtherEnumType.TWEET"];
   map<int32, other.OtherMessage> MapMsgKeyValue = 5 [(api.vt).value.skip="false"];
+  map<int32, string> MapIn = 6 [(api.vt).value={not_in:["123","456","789"]}];
 }
 
 message FuncValidate {
