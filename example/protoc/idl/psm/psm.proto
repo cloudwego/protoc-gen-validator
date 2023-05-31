@@ -67,6 +67,12 @@ enum EnumType {
   RETWEET = 1;
 }
 
+message CompatibleAnno {
+  optional double DoubleConst = 1 [(api.vt_compatible).const="123.123"];
+  optional float FloatLt = 2 [(api.vt_compatible).lt="123.312"];
+  optional double DoubleLe = 3 [(api.vt).le="123.54"];
+}
+
 message EnumValidate {
   optional EnumType Enum1 = 1 [(api.vt).const="EnumType.TWEET"];
   optional EnumType2 Enum2 = 2 [(api.vt).const="EnumType2.TWEET2"];

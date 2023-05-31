@@ -35,6 +35,9 @@ func (p *Parser) Parse(msg *protogen.Message) (*Validation, map[protoreflect.Fie
 	ret := make(map[protoreflect.FieldNumber]*Validation)
 	for _, f := range msg.Fields {
 		fieldAnnos := proto.GetExtension(f.Desc.Options(), api.E_Vt)
+		if proto.HasExtension(f.Desc.Options(), api.E_VtCompatible) {
+			fieldAnnos = proto.GetExtension(f.Desc.Options(), api.E_VtCompatible)
+		}
 		validAnnotations, err := RulesToAnnotations(fieldAnnos.(*api.FieldRules))
 		if err != nil {
 			return nil, nil, err
@@ -47,6 +50,9 @@ func (p *Parser) Parse(msg *protogen.Message) (*Validation, map[protoreflect.Fie
 		ret[f.Desc.Number()] = v
 	}
 	msgAnno := proto.GetExtension(msg.Desc.Options(), api.E_MsgVt)
+	if proto.HasExtension(msg.Desc.Options(), api.E_MsgVtCompatible) {
+		msgAnno = proto.GetExtension(msg.Desc.Options(), api.E_MsgVtCompatible)
+	}
 	msgRule, err := RulesToAnnotations(msgAnno.(*api.FieldRules))
 	if err != nil {
 		return nil, nil, err
