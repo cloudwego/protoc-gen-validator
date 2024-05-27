@@ -67,10 +67,10 @@ func (g *Generator) Generate() error {
 	g.generatePackage()
 	g.generateImportAndGuard()
 	err = g.generateValidate()
-	g.generateFuncsImport()
 	if err != nil {
 		return err
 	}
+	g.generateFuncsImport()
 	return nil
 }
 
