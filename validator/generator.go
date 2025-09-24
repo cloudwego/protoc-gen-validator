@@ -310,6 +310,7 @@ func (g *Generator) generateNumericValidation(vc *ValidateContext) error {
 		// construct target
 		target = vc.GetNameFunc
 		typeName, _ = fieldGoType(g.GeneratedFile, vc.RawField)
+		typeName = strings.TrimPrefix(typeName, "[]")
 		// construct source
 		switch rule.Key {
 		case parser.Const, parser.LessThan, parser.LessEqual, parser.GreatThan, parser.GreatEqual:
